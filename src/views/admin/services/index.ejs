@@ -1,0 +1,74 @@
+<% function renderBody() { %>
+  <section class="admin-card">
+    <div class="admin-card__header">
+      <div>
+        <h1>Services</h1>
+        <p>Keep concierge offerings up-to-date with clear summaries and descriptions.</p>
+      </div>
+    </div>
+    <div class="admin-split">
+      <form class="admin-form admin-form--panel" method="post" action="/admin/services">
+        <h2>Create Service</h2>
+        <div class="form-row">
+          <label for="title">Title *</label>
+          <input id="title" name="title" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="summary">Summary *</label>
+          <textarea id="summary" name="summary" rows="2" required></textarea>
+        </div>
+        <div class="form-row">
+          <label for="description">Description *</label>
+          <textarea id="description" name="description" rows="4" required></textarea>
+        </div>
+        <div class="form-row">
+          <label for="icon">Icon (optional)</label>
+          <input id="icon" name="icon" type="text" placeholder="e.g. ri-car-line" />
+        </div>
+        <button type="submit" class="button button--primary button--block">Add service</button>
+      </form>
+
+      <div class="admin-table-wrapper">
+        <% if (!services.length) { %>
+          <p>No services yet. Add your first offering.</p>
+        <% } else { %>
+          <table class="admin-table admin-table--compact">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Summary</th>
+                <th>Updated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% services.forEach(function(service) { %>
+                <tr>
+                  <td><strong><%= service.title %></strong></td>
+                  <td><%= service.summary %></td>
+                  <td><%= new Date(service.updatedAt).toLocaleDateString('en-MY') %></td>
+                  <td>
+                    <details class="admin-inline-edit">
+                      <summary>Edit</summary>
+                      <form method="post" action="/admin/services/<%= service.id %>">
+                        <label>Title<input type="text" name="title" value="<%= service.title %>" required /></label>
+                        <label>Summary<textarea name="summary" rows="2" required><%= service.summary %></textarea></label>
+                        <label>Description<textarea name="description" rows="3" required><%= service.description %></textarea></label>
+                        <label>Icon<input type="text" name="icon" value="<%= service.icon || '' %>" /></label>
+                        <button type="submit" class="button button--ghost button--sm">Save</button>
+                      </form>
+                      <form method="post" action="/admin/services/<%= service.id %>/delete" onsubmit="return confirm('Delete this service?')">
+                        <button type="submit" class="button button--ghost button--sm button--danger">Delete</button>
+                      </form>
+                    </details>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </section>
+<% } %>
+<%- include('../layout', { title, renderBody }) %>

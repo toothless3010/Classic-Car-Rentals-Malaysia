@@ -54,11 +54,14 @@ STRIPE_PAYMENT_LINK="https://buy.stripe.com/..."
 DEFAULT_OUTSTATION_FEE=1200
 DEFAULT_HOURLY_RATE=550
 DEFAULT_MIN_HOURS=3
+# Admin access
+ADMIN_PASSWORD="drive-classics"
 ```
 
 - `STRIPE_PAYMENT_LINK` – if provided, the booking confirmation screen will surface a “Pay deposit online” button.
 - `DEFAULT_OUTSTATION_FEE` – controls the estimated towing/outstation amount shown in the quote summary (set to blank to display “To be confirmed”).
 - `DEFAULT_HOURLY_RATE` / `DEFAULT_MIN_HOURS` – override global defaults when cars do not specify their own values.
+- `ADMIN_PASSWORD` – concierge dashboard password (defaults to `drive-classics` if omitted).
 
 ## 📂 Project Structure
 
@@ -75,6 +78,7 @@ public/
   styles/main.css    # Custom responsive design
   scripts/main.js    # Navigation, gallery, booking calculator
   images/hero-car.svg
+  src/views/admin/     # Admin dashboard layouts, forms, and tables
 prisma/
   schema.prisma      # Data models
   seed.js            # Seed script with sample data
@@ -87,6 +91,17 @@ prisma/
 - **Policies, testimonials, press** – extend the existing views with more sections or create new Prisma models.
 - **Payment integrations** – replace the Stripe payment link placeholder with your preferred gateway (ToyyibPay, iPay88, SenangPay, Stripe, etc.) by adding new controller logic after bookings are persisted.
 - **Social feeds & automation** – use the `/api` endpoints to publish car listings to Facebook/Instagram or integrate with Zapier/Make.
+
+## 🛠 Admin Dashboard
+
+- Visit `/admin/login` (link in footer) and authenticate with `ADMIN_PASSWORD`.
+- Dashboard widgets highlight fleet size, booking pipeline, and deposit totals.
+- Manage resources:
+  - **Cars** – create/edit/delete listings, update specs, upload image URLs (primary image = first line).
+  - **Bookings** – review enquiries, update status (Pending → Confirmed → Paid → Completed/Cancelled).
+  - **Rate Packages** – adjust pricing tiers and durations inline.
+  - **Services** – maintain concierge offerings with summaries and long-form descriptions.
+- Admin UI is built with the same responsive CSS and works across desktop/tablet.
 
 ## ✅ Testing & Validation
 

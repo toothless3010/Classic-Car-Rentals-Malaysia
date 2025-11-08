@@ -1,0 +1,76 @@
+<% function renderBody() { %>
+  <section class="admin-card">
+    <div class="admin-card__header">
+      <div>
+        <h1>Rate Packages</h1>
+        <p>Fine-tune packaged rates for weddings, productions, and VIP events.</p>
+      </div>
+    </div>
+    <div class="admin-split">
+      <form class="admin-form admin-form--panel" method="post" action="/admin/rate-packages">
+        <h2>Create Package</h2>
+        <div class="form-row">
+          <label for="label">Label *</label>
+          <input id="label" name="label" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="durationHours">Duration (hours) *</label>
+          <input id="durationHours" name="durationHours" type="number" min="1" required />
+        </div>
+        <div class="form-row">
+          <label for="price">Price (MYR) *</label>
+          <input id="price" name="price" type="number" min="0" step="1" required />
+        </div>
+        <div class="form-row">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="3"></textarea>
+        </div>
+        <button type="submit" class="button button--primary button--block">Add package</button>
+      </form>
+
+      <div class="admin-table-wrapper">
+        <% if (!ratePackages.length) { %>
+          <p>No packages yet. Add a signature package to get started.</p>
+        <% } else { %>
+          <table class="admin-table admin-table--compact">
+            <thead>
+              <tr>
+                <th>Label</th>
+                <th>Hours</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% ratePackages.forEach(function(rate) { %>
+                <tr>
+                  <td><strong><%= rate.label %></strong></td>
+                  <td><%= rate.durationHours %> hrs</td>
+                  <td><%= formatCurrency(rate.price) %></td>
+                  <td><%= rate.description || '-' %></td>
+                  <td>
+                    <details class="admin-inline-edit">
+                      <summary>Edit</summary>
+                      <form method="post" action="/admin/rate-packages/<%= rate.id %>">
+                        <label>Label<input type="text" name="label" value="<%= rate.label %>" required /></label>
+                        <label>Hours<input type="number" name="durationHours" value="<%= rate.durationHours %>" min="1" required /></label>
+                        <label>Price<input type="number" name="price" value="<%= rate.price %>" min="0" /></label>
+                        <label>Description<textarea name="description" rows="2"><%= rate.description || '' %></textarea></label>
+                        <button type="submit" class="button button--ghost button--sm">Save</button>
+                      </form>
+                      <form method="post" action="/admin/rate-packages/<%= rate.id %>/delete" onsubmit="return confirm('Delete this package?')">
+                        <button type="submit" class="button button--ghost button--sm button--danger">Delete</button>
+                      </form>
+                    </details>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </section>
+<% } %>
+<%- include('../layout', { title, renderBody }) %>

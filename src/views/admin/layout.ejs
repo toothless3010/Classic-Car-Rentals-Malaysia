@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-admin">
+    <header class="admin-header">
+      <div class="container admin-header__inner">
+        <a class="admin-brand" href="/admin">CCR Admin</a>
+        <% if (isAdmin) { %>
+          <nav class="admin-nav" aria-label="Admin navigation">
+            <a href="/admin" class="<%= currentPath.startsWith('/admin') && !currentPath.includes('/cars') && !currentPath.includes('/bookings') && !currentPath.includes('/rate-packages') && !currentPath.includes('/services') ? 'is-active' : '' %>">
+              Dashboard
+            </a>
+            <a href="/admin/cars" class="<%= currentPath.includes('/cars') ? 'is-active' : '' %>">Cars</a>
+            <a href="/admin/bookings" class="<%= currentPath.includes('/bookings') ? 'is-active' : '' %>">Bookings</a>
+            <a href="/admin/rate-packages" class="<%= currentPath.includes('/rate-packages') ? 'is-active' : '' %>">Rate Packages</a>
+            <a href="/admin/services" class="<%= currentPath.includes('/services') ? 'is-active' : '' %>">Services</a>
+          </nav>
+          <form class="admin-logout" method="post" action="/admin/logout">
+            <button type="submit" class="button button--ghost button--sm">Logout</button>
+          </form>
+        <% } %>
+      </div>
+    </header>
+    <main class="admin-main container">
+      <%- include('../partials/flash') %>
+      <% if (typeof renderBody === 'function') { renderBody(); } else if (typeof body !== 'undefined') { %>
+        <%- body %>
+      <% } %>
+    </main>
+  </body>
+</html>

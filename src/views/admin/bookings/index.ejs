@@ -1,0 +1,82 @@
+<% function renderBody() { %>
+  <section class="admin-card">
+    <div class="admin-card__header">
+      <div>
+        <h1>Bookings</h1>
+        <p>Track enquiries, update statuses, and follow up with clients quickly.</p>
+      </div>
+    </div>
+    <% if (!bookings.length) { %>
+      <p>No bookings yet. They will appear here once prospects submit the form.</p>
+    <% } else { %>
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer</th>
+              <th>Event</th>
+              <th>Car</th>
+              <th>Package / Hours</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% bookings.forEach(function(booking) { %>
+              <tr>
+                <td>#<%= booking.id %></td>
+                <td>
+                  <strong><%= booking.customerName %></strong><br />
+                  <small><a href="mailto:<%= booking.email %>"><%= booking.email %></a></small><br />
+                  <small><a href="tel:<%= booking.phone %>"><%= booking.phone %></a></small>
+                </td>
+                <td>
+                  <strong><%= booking.eventDateFormatted %></strong><br />
+                  <small><%= booking.eventType || 'Event' %></small><br />
+                  <small><%= booking.location || '-' %></small>
+                </td>
+                <td><%= booking.car ? booking.car.name : 'Any car' %></td>
+                <td>
+                  <% if (booking.ratePackage) { %>
+                    <%= booking.ratePackage.label %>
+                  <% } else { %>
+                    <%= booking.hoursRequested %> hours
+                  <% } %>
+                  <% if (booking.towingRequired) { %><br /><small>Outstation</small><% } %>
+                </td>
+                <td>
+                  <strong><%= formatCurrency(booking.totalAmount) %></strong><br />
+                  <small>Deposit: <%= formatCurrency(booking.depositAmount) %></small>
+                </td>
+                <td><span class="badge badge--<%= booking.status.toLowerCase() %>"><%= booking.status %></span></td>
+                <td>
+                  <form class="admin-inline-form" method="post" action="/admin/bookings/<%= booking.id %>/status">
+                    <label class="sr-only" for="status-<%= booking.id %>">Status</label>
+                    <select id="status-<%= booking.id %>" name="status">
+                      <% ["PENDING","CONFIRMED","PAID","COMPLETED","CANCELLED"].forEach(function(status) { %>
+                        <option value="<%= status %>" <%= booking.status === status ? 'selected' : '' %>>
+                          <%= status %>
+                        </option>
+                      <% }) %>
+                    </select>
+                    <button type="submit" class="button button--ghost button--sm">Update</button>
+                  </form>
+                </td>
+              </tr>
+              <% if (booking.notes) { %>
+                <tr class="admin-notes">
+                  <td colspan="8">
+                    <strong>Notes:</strong> <%= booking.notes %>
+                  </td>
+                </tr>
+              <% } %>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+<% } %>
+<%- include('../layout', { title, renderBody }) %>

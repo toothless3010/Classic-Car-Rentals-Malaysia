@@ -1,0 +1,72 @@
+<% function renderBody() { %>
+  <section class="admin-grid">
+    <article class="admin-stat">
+      <h2>Total Cars</h2>
+      <p class="admin-stat__number"><%= stats.carCount %></p>
+      <p class="admin-stat__hint">Active classic cars in the fleet.</p>
+    </article>
+    <article class="admin-stat">
+      <h2>Bookings</h2>
+      <p class="admin-stat__number"><%= stats.bookingCount %></p>
+      <p class="admin-stat__hint">All-time booking requests.</p>
+    </article>
+    <article class="admin-stat">
+      <h2>Pending</h2>
+      <p class="admin-stat__number"><%= stats.pendingBookingCount %></p>
+      <p class="admin-stat__hint">Awaiting confirmation.</p>
+    </article>
+    <article class="admin-stat">
+      <h2>Services</h2>
+      <p class="admin-stat__number"><%= stats.serviceCount %></p>
+      <p class="admin-stat__hint">Concierge offerings live on site.</p>
+    </article>
+    <article class="admin-stat admin-stat--wide">
+      <h2>Deposits Collected</h2>
+      <p class="admin-stat__number"><%= formatCurrency(stats.totalDeposit) %></p>
+      <p class="admin-stat__hint">Sum of recorded booking deposits.</p>
+    </article>
+  </section>
+
+  <section class="admin-card">
+    <div class="admin-card__header">
+      <h2>Latest Bookings</h2>
+      <a class="button button--ghost button--sm" href="/admin/bookings">View all</a>
+    </div>
+    <% if (!recentBookings.length) { %>
+      <p>No bookings yet. Marketing launch coming soon!</p>
+    <% } else { %>
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer</th>
+              <th>Event Date</th>
+              <th>Car</th>
+              <th>Package</th>
+              <th>Status</th>
+              <th>Deposit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% recentBookings.forEach(function(booking) { %>
+              <tr>
+                <td>#<%= booking.id %></td>
+                <td>
+                  <strong><%= booking.customerName %></strong><br />
+                  <small><%= booking.createdAtFormatted %></small>
+                </td>
+                <td><%= booking.eventDateFormatted %></td>
+                <td><%= booking.car ? booking.car.name : 'Any' %></td>
+                <td><%= booking.ratePackage ? booking.ratePackage.label : '-' %></td>
+                <td><span class="badge badge--<%= booking.status.toLowerCase() %>"><%= booking.status %></span></td>
+                <td><%= formatCurrency(booking.depositAmount) %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+<% } %>
+<%- include('layout', { title, renderBody }) %>

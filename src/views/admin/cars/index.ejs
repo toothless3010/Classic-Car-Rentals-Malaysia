@@ -1,0 +1,53 @@
+<% function renderBody() { %>
+  <section class="admin-card">
+    <div class="admin-card__header">
+      <div>
+        <h1>Classic Cars</h1>
+        <p>Manage fleet listings across Malaysia. Update specs, imagery, and availability notes.</p>
+      </div>
+      <a class="button button--primary" href="/admin/cars/new">Add Car</a>
+    </div>
+
+    <% if (!cars.length) { %>
+      <p>No cars yet. Add your first listing to showcase the fleet.</p>
+    <% } else { %>
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Location</th>
+              <th>Hourly</th>
+              <th>Bookings</th>
+              <th>Updated</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cars.forEach(function(car) { %>
+              <tr>
+                <td>
+                  <strong><%= car.name %></strong><br />
+                  <small><%= car.make %> · <%= car.model %></small>
+                </td>
+                <td><%= car.location || '-' %></td>
+                <td><%= car.hourlyRate ? formatCurrency(car.hourlyRate) : 'Package only' %></td>
+                <td><%= car.bookings.length %></td>
+                <td><%= new Date(car.updatedAt).toLocaleDateString('en-MY') %></td>
+                <td>
+                  <div class="admin-actions">
+                    <a class="button button--ghost button--sm" href="/admin/cars/<%= car.id %>/edit">Edit</a>
+                    <form method="post" action="/admin/cars/<%= car.id %>/delete" onsubmit="return confirm('Delete this car?')">
+                      <button type="submit" class="button button--ghost button--sm button--danger">Delete</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </section>
+<% } %>
+<%- include('../layout', { title, renderBody }) %>

@@ -1,0 +1,101 @@
+<% function renderBody() { %>
+  <section class="admin-card">
+    <div class="admin-card__header">
+      <div>
+        <h1><%= car ? 'Edit Car' : 'Add Car' %></h1>
+        <p>Complete the essentials. Images can be added as one URL per line, with optional alt text using <code>|</code>.</p>
+      </div>
+      <a class="button button--ghost" href="/admin/cars">Back to list</a>
+    </div>
+    <form class="admin-form" method="post" action="<%= car ? `/admin/cars/${car.id}` : '/admin/cars' %>">
+      <div class="admin-form__grid">
+        <div class="form-row">
+          <label for="name">Display Name *</label>
+          <input id="name" name="name" type="text" value="<%= car ? car.name : '' %>" required />
+        </div>
+        <div class="form-row">
+          <label for="make">Make *</label>
+          <input id="make" name="make" type="text" value="<%= car ? car.make : '' %>" required />
+        </div>
+        <div class="form-row">
+          <label for="model">Model *</label>
+          <input id="model" name="model" type="text" value="<%= car ? car.model : '' %>" required />
+        </div>
+        <div class="form-row">
+          <label for="year">Year</label>
+          <input id="year" name="year" type="number" value="<%= car && car.year ? car.year : '' %>" />
+        </div>
+        <div class="form-row">
+          <label for="engine">Engine</label>
+          <input id="engine" name="engine" type="text" value="<%= car ? car.engine || '' : '' %>" />
+        </div>
+        <div class="form-row">
+          <label for="displacementCc">CC</label>
+          <input
+            id="displacementCc"
+            name="displacementCc"
+            type="number"
+            value="<%= car && car.displacementCc ? car.displacementCc : '' %>"
+          />
+        </div>
+        <div class="form-row">
+          <label for="transmission">Transmission</label>
+          <input id="transmission" name="transmission" type="text" value="<%= car ? car.transmission || '' : '' %>" />
+        </div>
+        <div class="form-row">
+          <label for="seatingCapacity">Seats</label>
+          <input
+            id="seatingCapacity"
+            name="seatingCapacity"
+            type="number"
+            value="<%= car && car.seatingCapacity ? car.seatingCapacity : '' %>"
+          />
+        </div>
+        <div class="form-row">
+          <label for="location">Base Location</label>
+          <input id="location" name="location" type="text" value="<%= car ? car.location || '' : '' %>" />
+        </div>
+        <div class="form-row">
+          <label for="hourlyRate">Hourly Rate (MYR)</label>
+          <input
+            id="hourlyRate"
+            name="hourlyRate"
+            type="number"
+            step="1"
+            value="<%= car && car.hourlyRate ? car.hourlyRate : '' %>"
+          />
+        </div>
+        <div class="form-row">
+          <label for="minimumHours">Minimum Hours</label>
+          <input
+            id="minimumHours"
+            name="minimumHours"
+            type="number"
+            value="<%= car && car.minimumHours ? car.minimumHours : '' %>"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="availabilityNote">Availability Notes</label>
+        <textarea id="availabilityNote" name="availabilityNote" rows="2"><%= car ? car.availabilityNote || '' : '' %></textarea>
+      </div>
+      <div class="form-row">
+        <label for="shortDescription">Short Description</label>
+        <textarea id="shortDescription" name="shortDescription" rows="2"><%= car ? car.shortDescription || '' : '' %></textarea>
+      </div>
+      <div class="form-row">
+        <label for="longDescription">Long Description</label>
+        <textarea id="longDescription" name="longDescription" rows="4"><%= car ? car.longDescription || '' : '' %></textarea>
+      </div>
+      <div class="form-row">
+        <label for="imageUrls">Images (one per line, optional alt text with <code>|</code>)</label>
+        <textarea id="imageUrls" name="imageUrls" rows="4"><%= typeof imagesText !== 'undefined' ? imagesText : '' %></textarea>
+        <small class="form-hint">Example: https://example.com/car.jpg | Bride stepping out of Jaguar</small>
+      </div>
+
+      <button type="submit" class="button button--primary">Save car</button>
+    </form>
+  </section>
+<% } %>
+<%- include('../layout', { title, renderBody }) %>

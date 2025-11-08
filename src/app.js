@@ -7,6 +7,7 @@ import flash from "connect-flash";
 import compression from "compression";
 import webRoutes from "./routes/web.js";
 import apiRoutes from "./routes/api.js";
+import adminRoutes from "./routes/admin.js";
 
 const app = express();
 
@@ -84,12 +85,14 @@ app.use((req, res, next) => {
     success: req.flash("success"),
     error: req.flash("error"),
   };
+  res.locals.isAdmin = Boolean(req.session?.isAdmin);
   res.locals.currentPath = req.path;
   next();
 });
 
 app.use("/", webRoutes);
 app.use("/api", apiRoutes);
+app.use("/admin", adminRoutes);
 
 app.use((req, res) => {
   res.status(404);

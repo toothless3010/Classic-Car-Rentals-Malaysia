@@ -1,0 +1,23 @@
+<% function renderBody() { %>
+  <section class="admin-card admin-card--center">
+    <h1>Admin Sign In</h1>
+    <p>Enter the concierge password to manage cars, bookings, and services.</p>
+    <form class="admin-form" method="post" action="/admin/login">
+      <div class="form-row">
+        <label for="admin-password">Password</label>
+        <input
+          id="admin-password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+      </div>
+      <button type="submit" class="button button--primary button--block">Sign in</button>
+    </form>
+    <p class="admin-hint">
+      Need an account? Set <code>ADMIN_PASSWORD</code> in your <code>.env</code> file.
+    </p>
+  </section>
+<% } %>
+<%- include('layout', { title, renderBody }) %>
