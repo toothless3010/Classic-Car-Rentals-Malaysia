@@ -63,6 +63,26 @@ ADMIN_PASSWORD="drive-classics"
 - `DEFAULT_HOURLY_RATE` / `DEFAULT_MIN_HOURS` – override global defaults when cars do not specify their own values.
 - `ADMIN_PASSWORD` – concierge dashboard password (defaults to `drive-classics` if omitted).
 
+## 🐳 Docker (Production-style)
+
+Build the container image:
+
+```bash
+docker build -t ccrm-app .
+```
+
+Run it (mounting a volume keeps the SQLite database between restarts):
+
+```bash
+docker run --rm -p 3000:3000 \
+  -e SESSION_SECRET="pick-a-secret" \
+  -e ADMIN_PASSWORD="drive-classics" \
+  -v "$(pwd)/data":/app/prisma \
+  --name ccrm ccrm-app
+```
+
+The container automatically runs `prisma migrate deploy` on start, then boots the server on port 3000. If you prefer docker-compose, add an external database (Postgres/MySQL) and point `DATABASE_URL` at it.
+
 ## 📂 Project Structure
 
 ```
