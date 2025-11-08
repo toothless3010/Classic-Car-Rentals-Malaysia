@@ -1,0 +1,49 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h3 class="footer-heading"><%= brand.name %></h3>
+      <p>
+        Premium classic car rentals for weddings, productions, and prestige events across
+        Malaysia.
+      </p>
+      <p class="footer-contact">
+        <span>Email: <a href="mailto:<%= brand.contactEmail %>"><%= brand.contactEmail %></a></span>
+        <span>Phone: <a href="tel:+60123456789"><%= brand.contactPhone %></a></span>
+      </p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="/fleet">Fleet</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/booking">Booking</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/brand">Brand Kit</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <ul class="footer-links">
+        <li><a href="<%= brand.socials.facebook %>" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="<%= brand.socials.instagram %>" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="<%= brand.socials.tiktok %>" target="_blank" rel="noopener">TikTok</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Stay Updated</h4>
+      <p>Sign up for new arrivals and event inspiration.</p>
+      <form class="footer-form" action="#" method="post">
+        <label class="sr-only" for="footer-email">Email address</label>
+        <input type="email" id="footer-email" name="email" placeholder="you@email.com" />
+        <button type="submit" class="button button--secondary">Notify Me</button>
+      </form>
+      <small class="footer-note">
+        We respond within 24 hours for Klang Valley requests.
+      </small>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <small>© <%= currentYear %> <%= brand.name %>. All rights reserved.</small>
+    <small>Crafted for performance across Safari, Chrome, and Edge.</small>
+  </div>
+</footer>

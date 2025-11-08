@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-home">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="hero container">
+        <div class="hero-copy">
+          <p class="eyebrow">Malaysia's premier classic car concierge</p>
+          <h1>Make your arrival unforgettable</h1>
+          <p>
+            From timeless Rolls-Royces to iconic Mercedes convertibles, our fleet arrives fully
+            chauffeured for weddings, productions, and VIP events across Klang Valley - and beyond.
+          </p>
+          <div class="hero-actions">
+            <a class="button button--primary" href="/booking">Start A Booking</a>
+            <a class="button button--ghost" href="/fleet">Browse Fleet</a>
+          </div>
+          <ul class="hero-highlights">
+            <li><strong>50%</strong> deposit to secure your date</li>
+            <li>Concierge support within 24 hours</li>
+            <li>Outstation arrangements available nationwide</li>
+          </ul>
+        </div>
+        <div class="hero-media">
+          <img
+            src="/images/hero-car.svg"
+            alt="Classic Rolls-Royce style illustration in Malaysia"
+            loading="lazy"
+          />
+          <div class="hero-card">
+            <span class="hero-card-label">Next peak season</span>
+            <strong><%= upcomingSeason %> weddings</strong>
+            <p>Secure your dream car before slots fill up.</p>
+          </div>
+        </div>
+      </section>
+
+      <%- include('../partials/flash') %>
+
+      <section class="section status-banner">
+        <div class="container status-banner-content">
+          <p>
+            New! Instant payment links now available. Lock in your booking online with secure
+            checkout.
+          </p>
+          <a href="/booking" class="button button--inline">Check availability</a>
+        </div>
+      </section>
+
+      <section class="section section--flush">
+        <div class="container section-heading">
+          <h2>Signature rate packages</h2>
+          <p>Transparent pricing tailored for celebrations, productions, and full-day events.</p>
+        </div>
+        <div class="container card-grid card-grid--rates">
+          <% ratePackages.forEach(function(rate) { %>
+            <article class="card rate-card">
+              <header>
+                <h3><%= rate.label %></h3>
+                <span class="rate-tag"><%= rate.durationHours %> hours</span>
+              </header>
+              <p class="price"><%= formatCurrency(rate.price) %></p>
+              <% if (rate.description) { %>
+                <p><%= rate.description %></p>
+              <% } %>
+              <ul class="card-list">
+                <li>Chauffeur-driven classic</li>
+                <li>Professional concierge liaison</li>
+                <li>Fuel & ribbons included</li>
+              </ul>
+              <footer>
+                <a class="button button--secondary" href="/booking?ratePackageId=<%= rate.id %>"
+                  >Reserve this package</a
+                >
+              </footer>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container section-heading">
+          <h2>Curated for impact</h2>
+          <p>
+            Hand-selected classics maintained by collectors across Malaysia, ready for your event
+            vision.
+          </p>
+        </div>
+        <div class="container card-grid">
+          <% if (featuredCars.length === 0) { %>
+            <p class="empty-state">
+              Our fleet is being updated. Reach out for the latest availability.
+            </p>
+          <% } %>
+          <% featuredCars.forEach(function(car) { %>
+            <article class="card car-card">
+              <div class="card-media">
+                <% const heroImage = car.images && car.images.length ? car.images[0] : null; %>
+                <% if (heroImage) { %>
+                  <img src="<%= heroImage.url %>" alt="<%= heroImage.altText || car.name %>" />
+                <% } else { %>
+                  <div class="card-placeholder">Image coming soon</div>
+                <% } %>
+                <span class="badge">Featured</span>
+              </div>
+              <div class="card-body">
+                <h3><%= car.name %></h3>
+                <p><%= car.shortDescription || 'Full specs available on request.' %></p>
+                <ul class="car-meta">
+                  <% if (car.year) { %><li><strong>Year:</strong> <%= car.year %></li><% } %>
+                  <% if (car.displacementCc) { %><li><strong>CC:</strong> <%= car.displacementCc %></li><% } %>
+                  <% if (car.location) { %><li><strong>Based in:</strong> <%= car.location %></li><% } %>
+                </ul>
+              </div>
+              <footer class="card-footer">
+                <a class="button button--ghost" href="/cars/<%= car.slug %>">View details</a>
+                <a class="button button--primary" href="/booking?carId=<%= car.id %>"
+                  >Request this car</a
+                >
+              </footer>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+
+      <section class="section section--alt">
+        <div class="container split">
+          <div>
+            <h2>Concierge-level services</h2>
+            <p>
+              Beyond the drive, our team coordinates logistics, styling, and compliance for each
+              occasion.
+            </p>
+            <ul class="feature-list">
+              <li>Dedicated event manager from booking to finish</li>
+              <li>Experienced chauffeurs briefed on your itinerary</li>
+              <li>Partner network for decor, photography, and venues</li>
+            </ul>
+            <a class="button button--primary" href="/services">Explore full services</a>
+          </div>
+          <div class="service-cards">
+            <% services.forEach(function(service) { %>
+              <article class="mini-card">
+                <h3><%= service.title %></h3>
+                <p><%= service.summary %></p>
+                <a href="/services/<%= service.slug %>">Read more</a>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container roadmap">
+          <div>
+            <h2>Smooth bookings, nationwide reach</h2>
+            <p>
+              Our network of classic car owners spans Kuala Lumpur, Selangor, Penang, Johor Bahru,
+              and more. Outstation requests include transparent towing coordination.
+            </p>
+          </div>
+          <ol class="steps">
+            <li>
+              <h3>Consult</h3>
+              <p>Share your event date, venue, and dream car wishlist.</p>
+            </li>
+            <li>
+              <h3>Confirm</h3>
+              <p>Lock in with a 50% deposit via secure payment link.</p>
+            </li>
+            <li>
+              <h3>Celebrate</h3>
+              <p>Our concierge and chauffeur team delivers a show-stopping arrival.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section section--alt">
+        <div class="container faq">
+          <div>
+            <h2>Frequently asked questions</h2>
+            <p>
+              Policies, insurance coverage, and detailed terms are prepared for handover during
+              onboarding. Here are quick answers to get started.
+            </p>
+            <a class="button button--ghost" href="/contact">Ask a question</a>
+          </div>
+          <div class="accordion">
+            <% faqs.forEach(function(faq) { %>
+              <details>
+                <summary><%= faq.question %></summary>
+                <p><%= faq.answer %></p>
+              </details>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="section cta">
+        <div class="container cta-content">
+          <h2>Ready to secure your classic?</h2>
+          <p>
+            Share your event brief and our concierge will respond with car options, visual decks,
+            and deposit instructions within 24 hours.
+          </p>
+          <div class="cta-actions">
+            <a class="button button--primary" href="/booking">Start a booking</a>
+            <a class="button button--ghost" href="<%= brand.socials.whatsapp || '#' %>">Chat on WhatsApp</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

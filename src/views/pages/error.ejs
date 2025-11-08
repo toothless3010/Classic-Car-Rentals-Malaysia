@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-error">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="section">
+        <div class="container error-card">
+          <h1>Something went wrong</h1>
+          <p><%= message || 'Please retry in a few moments or contact our concierge team.' %></p>
+          <a class="button button--primary" href="/">Return home</a>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

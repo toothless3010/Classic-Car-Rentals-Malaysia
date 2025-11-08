@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-brand">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="page-hero container">
+        <div>
+          <h1>Brand toolkit</h1>
+          <p>
+            Use these guidelines to keep Classic Car Rentals Malaysia consistent across marketing,
+            social media, and partner materials.
+          </p>
+        </div>
+        <a class="button button--ghost" href="mailto:<%= brand.contactEmail %>">Request assets</a>
+      </section>
+
+      <section class="section">
+        <div class="container brand-grid">
+          <div class="brand-card">
+            <h2>Logo</h2>
+            <div class="logo-preview">
+              <span class="brand-mark">CCR</span>
+              <div class="brand-text">
+                <strong><%= brand.name %></strong>
+                <small><%= brand.tagline %></small>
+              </div>
+            </div>
+            <p>
+              Vector and transparent PNG files are available upon request. Default usage is on dark
+              backgrounds; invert to white when placing on photos.
+            </p>
+          </div>
+          <div class="brand-card">
+            <h2>Colors</h2>
+            <ul class="swatches">
+              <li>
+                <span style="--swatch-color: <%= brand.primaryColor %>"></span>
+                <div>
+                  <strong>Heritage Gold</strong>
+                  <small><%= brand.primaryColor %></small>
+                </div>
+              </li>
+              <li>
+                <span style="--swatch-color: <%= brand.secondaryColor %>"></span>
+                <div>
+                  <strong>Midnight Black</strong>
+                  <small><%= brand.secondaryColor %></small>
+                </div>
+              </li>
+              <li>
+                <span style="--swatch-color: <%= brand.accentColor %>"></span>
+                <div>
+                  <strong>Champagne Accent</strong>
+                  <small><%= brand.accentColor %></small>
+                </div>
+              </li>
+              <li>
+                <span style="--swatch-color: <%= brand.neutralColor %>"></span>
+                <div>
+                  <strong>Ivory Mist</strong>
+                  <small><%= brand.neutralColor %></small>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="brand-card">
+            <h2>Typography</h2>
+            <p>
+              We pair classic elegance with modern readability using Playfair Display for headings
+              and Manrope for body copy. Recommended sizes:
+            </p>
+            <ul class="type-scale">
+              <li><strong>H1:</strong> Playfair Display, 48px, weight 600</li>
+              <li><strong>H2:</strong> Playfair Display, 36px, weight 600</li>
+              <li><strong>Body:</strong> Manrope, 16px, weight 400</li>
+              <li><strong>Buttons:</strong> Manrope, 14px uppercase, letter spacing 0.08em</li>
+            </ul>
+          </div>
+          <div class="brand-card">
+            <h2>Voice & tone</h2>
+            <ul class="feature-list">
+              <li>Confident yet warm, like a trusted concierge</li>
+              <li>Highlight heritage, craftsmanship, and reliability</li>
+              <li>Use Malaysian context (weddings, shoots, corporate events)</li>
+              <li>Provide clear next steps in every message</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

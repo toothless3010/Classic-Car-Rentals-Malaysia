@@ -1,0 +1,45 @@
+<header class="site-header">
+  <div class="container header-top">
+    <a class="brand" href="/">
+      <span class="brand-mark">CCR</span>
+      <span class="brand-text">
+        <strong><%= brand.name %></strong>
+        <small><%= brand.tagline %></small>
+      </span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+    <nav id="primary-nav" class="primary-nav" aria-label="Main navigation">
+      <ul>
+        <li><a href="/" class="<%= currentPath === '/' ? 'is-active' : '' %>">Home</a></li>
+        <li><a href="/fleet" class="<%= currentPath === '/fleet' ? 'is-active' : '' %>">Fleet</a></li>
+        <li>
+          <a
+            href="/services"
+            class="<%= currentPath && currentPath.startsWith('/services') ? 'is-active' : '' %>"
+            >Services</a
+          >
+        </li>
+        <li>
+          <a
+            href="/booking"
+            class="<%= currentPath && currentPath.startsWith('/booking') ? 'is-active' : '' %>"
+            >Booking</a
+          >
+        </li>
+        <li>
+          <a href="/contact" class="<%= currentPath === '/contact' ? 'is-active' : '' %>"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <div class="nav-cta">
+        <a class="button button--primary" href="/booking">Reserve A Classic</a>
+      </div>
+    </nav>
+  </div>
+</header>

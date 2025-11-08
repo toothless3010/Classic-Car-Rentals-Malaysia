@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-booking">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="page-hero container">
+        <div>
+          <h1>Book your classic experience</h1>
+          <p>
+            Complete the form and our concierge will confirm availability, pricing, and chauffeured
+            arrangements within 24 hours.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a class="button button--ghost" href="/fleet">Browse first</a>
+          <a class="button button--ghost" href="/contact">Need help?</a>
+        </div>
+      </section>
+
+      <section class="section section--flush">
+        <div class="container booking-layout">
+          <form
+            class="booking-form"
+            method="post"
+            action="/booking"
+            data-rate-packages='<%- JSON.stringify(ratePackages) %>'
+            data-hourly-rate="550"
+            data-min-hours="3"
+            data-outstation-fee="<%= process.env.DEFAULT_OUTSTATION_FEE || '' %>"
+          >
+            <fieldset>
+              <legend>Your details</legend>
+              <div class="form-row">
+                <label for="customerName">Full name</label>
+                <input
+                  id="customerName"
+                  name="customerName"
+                  type="text"
+                  required
+                  value="<%= formValues.customerName || '' %>"
+                />
+                <% if (errors.customerName) { %>
+                  <p class="form-error"><%= errors.customerName.msg %></p>
+                <% } %>
+              </div>
+              <div class="form-grid">
+                <div class="form-row">
+                  <label for="email">Email</label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value="<%= formValues.email || '' %>"
+                  />
+                  <% if (errors.email) { %>
+                    <p class="form-error"><%= errors.email.msg %></p>
+                  <% } %>
+                </div>
+                <div class="form-row">
+                  <label for="phone">Phone / WhatsApp</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    required
+                    value="<%= formValues.phone || '' %>"
+                  />
+                  <% if (errors.phone) { %>
+                    <p class="form-error"><%= errors.phone.msg %></p>
+                  <% } %>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Event details</legend>
+              <div class="form-grid">
+                <div class="form-row">
+                  <label for="eventType">Event type</label>
+                  <input
+                    id="eventType"
+                    name="eventType"
+                    type="text"
+                    placeholder="Wedding, photoshoot, video, VIP transfer, etc."
+                    value="<%= formValues.eventType || '' %>"
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="eventDate">Date needed</label>
+                  <input
+                    id="eventDate"
+                    name="eventDate"
+                    type="date"
+                    required
+                    value="<%= formValues.eventDate || '' %>"
+                  />
+                  <% if (errors.eventDate) { %>
+                    <p class="form-error"><%= errors.eventDate.msg %></p>
+                  <% } %>
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="location">Primary venue / pickup location</label>
+                <input
+                  id="location"
+                  name="location"
+                  type="text"
+                  placeholder="Venue or meeting point"
+                  value="<%= formValues.location || '' %>"
+                />
+              </div>
+              <div class="form-grid">
+                <div class="form-row">
+                  <label for="carId">Preferred car</label>
+                  <select id="carId" name="carId">
+                    <option value="">I am flexible</option>
+                    <% cars.forEach(function(car) { %>
+                      <option
+                        value="<%= car.id %>"
+                        <%= String(formValues.carId || '') === String(car.id) ? 'selected' : '' %>>
+                        <%= car.name %> (<%= car.location || 'Klang Valley' %>)
+                      </option>
+                    <% }) %>
+                  </select>
+                  <% if (errors.carId) { %>
+                    <p class="form-error"><%= errors.carId.msg %></p>
+                  <% } %>
+                </div>
+                <div class="form-row">
+                  <label for="ratePackageId">Preferred package</label>
+                  <select id="ratePackageId" name="ratePackageId">
+                    <option value="">Custom duration</option>
+                    <% ratePackages.forEach(function(rate) { %>
+                      <option
+                        value="<%= rate.id %>"
+                        data-hours="<%= rate.durationHours %>"
+                        data-price="<%= rate.price %>"
+                        <%= String(formValues.ratePackageId || '') === String(rate.id) ? 'selected' : '' %>>
+                        <%= rate.label %> - <%= formatCurrency(rate.price) %>
+                      </option>
+                    <% }) %>
+                  </select>
+                  <% if (errors.ratePackageId) { %>
+                    <p class="form-error"><%= errors.ratePackageId.msg %></p>
+                  <% } %>
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="hoursRequested">Hours required (if custom)</label>
+                <input
+                  id="hoursRequested"
+                  name="hoursRequested"
+                  type="number"
+                  min="1"
+                  max="24"
+                  step="1"
+                  value="<%= formValues.hoursRequested || '' %>"
+                />
+                <% if (errors.hoursRequested) { %>
+                  <p class="form-error"><%= errors.hoursRequested.msg %></p>
+                <% } %>
+              </div>
+              <div class="form-checkbox">
+                <input
+                  type="checkbox"
+                  id="towingRequired"
+                  name="towingRequired"
+                  <%= formValues.towingRequired ? 'checked' : '' %>
+                />
+                <label for="towingRequired">This booking is outside of Klang Valley</label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Notes</legend>
+              <div class="form-row">
+                <label for="notes">Special requests or schedule</label>
+                <textarea
+                  id="notes"
+                  name="notes"
+                  rows="4"
+                  placeholder="Share your itinerary, required props, preferred color themes, etc."
+                ><%= formValues.notes || '' %></textarea>
+              </div>
+            </fieldset>
+
+            <div class="form-actions">
+              <button type="submit" class="button button--primary button--block">
+                Submit booking request
+              </button>
+              <p class="hint">
+                A 50% deposit is required upon confirmation. Remaining balance is due 48 hours before
+                the event.
+              </p>
+            </div>
+          </form>
+
+          <aside class="booking-summary" data-summary>
+            <h2>Estimated investment</h2>
+            <dl>
+              <div>
+                <dt>Package / hours</dt>
+                <dd data-summary-duration>3 hours</dd>
+              </div>
+              <div>
+                <dt>Base amount</dt>
+                <dd data-summary-base>RM0</dd>
+              </div>
+              <div>
+                <dt>Outstation estimate</dt>
+                <dd data-summary-outstation>RM0</dd>
+              </div>
+              <div>
+                <dt>Deposit (50%)</dt>
+                <dd data-summary-deposit>RM0</dd>
+              </div>
+              <div>
+                <dt>Total due</dt>
+                <dd data-summary-total>RM0</dd>
+              </div>
+            </dl>
+            <div class="summary-note" data-summary-note>
+              Select a package or enter hours to see your estimated investment.
+            </div>
+            <div class="summary-cta">
+              <p>Need immediate assistance? Message us on:</p>
+              <ul>
+                <li><a href="<%= brand.socials.facebook %>" target="_blank" rel="noopener">Facebook</a></li>
+                <li><a href="<%= brand.socials.instagram %>" target="_blank" rel="noopener">Instagram</a></li>
+                <li><a href="<%= brand.socials.tiktok %>" target="_blank" rel="noopener">TikTok</a></li>
+              </ul>
+            </div>
+            <div class="faq-preview">
+              <h3>Quick answers</h3>
+              <ul>
+                <% faqs.slice(0, 3).forEach(function(faq) { %>
+                  <li><strong><%= faq.question %></strong> <span><%= faq.answer %></span></li>
+                <% }) %>
+              </ul>
+              <a href="/contact">See all FAQs</a>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

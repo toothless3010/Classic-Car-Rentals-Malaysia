@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title: car ? car.name : title }) %>
+  <body class="page-car-detail">
+    <%- include('../partials/header') %>
+    <main>
+      <% if (!car) { %>
+        <section class="container">
+          <p>Car details are loading...</p>
+        </section>
+      <% } else { %>
+        <section class="page-hero container">
+          <div>
+            <h1><%= car.name %></h1>
+            <p>
+              <%= car.longDescription || car.shortDescription || 'Complete specifications available on request.' %>
+            </p>
+            <ul class="hero-highlights hero-highlights--inline">
+              <% if (car.year) { %><li><strong>Year</strong> <%= car.year %></li><% } %>
+              <% if (car.displacementCc) { %><li><strong>Engine</strong> <%= car.displacementCc %> cc</li><% } %>
+              <% if (car.transmission) { %><li><strong>Transmission</strong> <%= car.transmission %></li><% } %>
+            </ul>
+            <div class="hero-actions">
+              <a class="button button--primary" href="/booking?carId=<%= car.id %>">Request this car</a>
+              <a class="button button--ghost" href="/fleet">Back to fleet</a>
+            </div>
+          </div>
+          <div class="gallery">
+            <% if (car.images && car.images.length) { %>
+              <div class="gallery-main">
+                <% car.images.forEach(function(image, index) { %>
+                  <figure class="gallery-item <%= index === 0 ? 'is-active' : '' %>">
+                    <img src="<%= image.url %>" alt="<%= image.altText || car.name %>" loading="<%= index === 0 ? 'eager' : 'lazy' %>" />
+                  </figure>
+                <% }) %>
+              </div>
+              <div class="gallery-thumbs">
+                <% car.images.forEach(function(image, index) { %>
+                  <button
+                    type="button"
+                    class="thumb <%= index === 0 ? 'is-active' : '' %>"
+                    data-image-index="<%= index %>"
+                  >
+                    <img src="<%= image.url %>" alt="<%= image.altText || car.name %>" />
+                  </button>
+                <% }) %>
+              </div>
+            <% } else { %>
+              <div class="card-placeholder">Photography coming soon</div>
+            <% } %>
+          </div>
+        </section>
+
+        <section class="container detail-grid">
+          <article>
+            <h2>Specs & highlights</h2>
+            <dl class="spec-list">
+              <% if (car.make) { %>
+                <div>
+                  <dt>Make</dt>
+                  <dd><%= car.make %></dd>
+                </div>
+              <% } %>
+              <% if (car.model) { %>
+                <div>
+                  <dt>Model</dt>
+                  <dd><%= car.model %></dd>
+                </div>
+              <% } %>
+              <% if (car.year) { %>
+                <div>
+                  <dt>Year</dt>
+                  <dd><%= car.year %></dd>
+                </div>
+              <% } %>
+              <% if (car.displacementCc) { %>
+                <div>
+                  <dt>Engine capacity</dt>
+                  <dd><%= car.displacementCc %> cc</dd>
+                </div>
+              <% } %>
+              <% if (car.engine) { %>
+                <div>
+                  <dt>Engine configuration</dt>
+                  <dd><%= car.engine %></dd>
+                </div>
+              <% } %>
+              <% if (car.transmission) { %>
+                <div>
+                  <dt>Transmission</dt>
+                  <dd><%= car.transmission %></dd>
+                </div>
+              <% } %>
+              <% if (car.seatingCapacity) { %>
+                <div>
+                  <dt>Seating</dt>
+                  <dd>Seats <%= car.seatingCapacity %></dd>
+                </div>
+              <% } %>
+              <% if (car.location) { %>
+                <div>
+                  <dt>Base location</dt>
+                  <dd><%= car.location %></dd>
+                </div>
+              <% } %>
+              <% if (car.availabilityNote) { %>
+                <div>
+                  <dt>Availability</dt>
+                  <dd><%= car.availabilityNote %></dd>
+                </div>
+              <% } %>
+            </dl>
+          </article>
+          <aside class="sidebar-card">
+            <h3>Booking snapshot</h3>
+            <ul>
+              <li><strong>Minimum</strong> <%= car.minimumHours || 3 %> hours</li>
+              <li><strong>Hourly rate</strong> <%= formatCurrency(car.hourlyRate || 550) %></li>
+              <li><strong>Deposit</strong> 50% upon confirmation</li>
+              <li><strong>Outstation</strong> Towing arranged on request</li>
+            </ul>
+            <a class="button button--primary button--block" href="/booking?carId=<%= car.id %>">
+              Start a booking request
+            </a>
+            <p class="hint">
+              We coordinate with the owner to confirm availability within one business day.
+            </p>
+          </aside>
+        </section>
+
+        <section class="section section--alt">
+          <div class="container split">
+            <div>
+              <h2>Perfect for</h2>
+              <ul class="feature-list">
+                <li>Luxury weddings and nikah ceremonies</li>
+                <li>High-profile photoshoots and video productions</li>
+                <li>Corporate showcases and VIP transfers</li>
+              </ul>
+            </div>
+            <div class="quote-card">
+              <h3>Need it outside Klang Valley?</h3>
+              <p>
+                We collaborate with nationwide towing partners for Penang, Johor, Melaka, Ipoh, and
+                beyond. Share your venue details at checkout for a tailored quotation.
+              </p>
+              <a class="button button--ghost" href="/contact">Talk to concierge</a>
+            </div>
+          </div>
+        </section>
+      <% } %>
+
+      <% if (relatedCars && relatedCars.length) { %>
+        <section class="section">
+          <div class="container section-heading">
+            <h2>Other head-turners</h2>
+            <p>Swap cars effortlessly within the same booking request.</p>
+          </div>
+          <div class="container card-grid">
+            <% relatedCars.forEach(function(item) { %>
+              <article class="card car-card">
+                <div class="card-media">
+                  <% const heroImage = item.images && item.images.length ? item.images[0] : null; %>
+                  <% if (heroImage) { %>
+                    <img src="<%= heroImage.url %>" alt="<%= heroImage.altText || item.name %>" />
+                  <% } else { %>
+                    <div class="card-placeholder">Image coming soon</div>
+                  <% } %>
+                </div>
+                <div class="card-body">
+                  <h3><%= item.name %></h3>
+                  <p><%= item.shortDescription || 'Full specs available on request.' %></p>
+                </div>
+                <footer class="card-footer">
+                  <a class="button button--ghost" href="/cars/<%= item.slug %>">View details</a>
+                </footer>
+              </article>
+            <% }) %>
+          </div>
+        </section>
+      <% } %>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

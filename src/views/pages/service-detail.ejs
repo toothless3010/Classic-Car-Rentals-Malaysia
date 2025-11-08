@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-service-detail">
+    <%- include('../partials/header') %>
+    <main>
+      <% if (!service) { %>
+        <section class="container">
+          <p>Service details are loading...</p>
+        </section>
+      <% } else { %>
+        <section class="page-hero container">
+          <div>
+            <h1><%= service.title %></h1>
+            <p><%= service.summary %></p>
+          </div>
+          <div class="hero-actions">
+            <a class="button button--primary" href="/booking">Request this service</a>
+            <a class="button button--ghost" href="/services">Back to services</a>
+          </div>
+        </section>
+
+        <section class="container prose">
+          <% (service.description || '').split(/\n{2,}/).forEach(function(block) { %>
+            <p><%= block %></p>
+          <% }) %>
+        </section>
+
+        <section class="section section--alt">
+          <div class="container split">
+            <div>
+              <h2>How it works</h2>
+              <ol class="steps">
+                <li>
+                  <h3>Consult</h3>
+                  <p>Share your requirements and desired timelines with our concierge.</p>
+                </li>
+                <li>
+                  <h3>Plan</h3>
+                  <p>We craft a proposal with milestones, resources, and budget clarity.</p>
+                </li>
+                <li>
+                  <h3>Deliver</h3>
+                  <p>Our experienced team executes with on-ground support throughout.</p>
+                </li>
+              </ol>
+            </div>
+            <aside class="sidebar-card">
+              <h3>Have supporting documents?</h3>
+              <p>Email us your deck or inspiration board so we can prepare matching options.</p>
+              <a class="button button--primary button--block" href="mailto:<%= brand.contactEmail %>">
+                Email concierge
+              </a>
+            </aside>
+          </div>
+        </section>
+      <% } %>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

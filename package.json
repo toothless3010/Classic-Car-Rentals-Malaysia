@@ -1,0 +1,43 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "This is a mvp web app for my classic car rental business",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "node prisma/seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toothless3010/Classic-Car-Rentals-Malaysia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toothless3010/Classic-Car-Rentals-Malaysia/issues"
+  },
+  "homepage": "https://github.com/toothless3010/Classic-Car-Rentals-Malaysia#readme",
+  "dependencies": {
+    "@prisma/client": "^6.19.0",
+    "compression": "^1.8.1",
+    "connect-flash": "^0.1.1",
+    "dayjs": "^1.11.19",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "express-validator": "^7.3.0",
+    "helmet": "^8.1.0",
+    "slugify": "^1.6.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prisma": "^6.19.0"
+  }
+}

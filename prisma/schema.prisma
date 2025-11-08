@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Car {
+  id               Int         @id @default(autoincrement())
+  name             String
+  slug             String      @unique
+  make             String
+  model            String
+  year             Int?
+  engine           String?
+  displacementCc   Int?
+  transmission     String?
+  seatingCapacity  Int?
+  location         String?
+  availabilityNote String?
+  shortDescription String?
+  longDescription  String?
+  hourlyRate       Int?
+  minimumHours     Int?        @default(3)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  bookings         Booking[]
+  images           CarImage[]
+}
+
+model CarImage {
+  id        Int     @id @default(autoincrement())
+  url       String
+  altText   String?
+  isPrimary Boolean @default(false)
+  carId     Int
+  createdAt DateTime @default(now())
+
+  car Car @relation(fields: [carId], references: [id], onDelete: Cascade)
+}
+
+model RatePackage {
+  id            Int       @id @default(autoincrement())
+  label         String
+  slug          String    @unique
+  durationHours Int
+  price         Int
+  description   String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  bookings      Booking[]
+}
+
+model Booking {
+  id              Int           @id @default(autoincrement())
+  customerName    String
+  email           String
+  phone           String
+  eventType       String?
+  eventDate       DateTime
+  hoursRequested  Int
+  location        String?
+  towingRequired  Boolean       @default(false)
+  notes           String?
+  totalAmount     Int
+  depositAmount   Int
+  status          BookingStatus @default(PENDING)
+  paymentLink     String?
+  carId           Int?
+  ratePackageId   Int?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  car         Car?        @relation(fields: [carId], references: [id])
+  ratePackage RatePackage? @relation(fields: [ratePackageId], references: [id])
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  summary     String
+  description String
+  icon        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Faq {
+  id        Int      @id @default(autoincrement())
+  question  String   @unique
+  answer    String
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SocialLink {
+  id        Int      @id @default(autoincrement())
+  platform  String   @unique
+  url       String
+  handle    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  PAID
+  COMPLETED
+  CANCELLED
+}

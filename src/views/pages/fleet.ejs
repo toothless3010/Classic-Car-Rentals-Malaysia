@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-fleet">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="page-hero container">
+        <div>
+          <h1>Discover the fleet</h1>
+          <p>
+            Browse collector-maintained classics available for chauffeur-driven experiences. Each
+            profile includes detailed specs, availability, and event pairings.
+          </p>
+        </div>
+        <form class="filters" method="get">
+          <div class="filters-row">
+            <label for="search">Search</label>
+            <input
+              id="search"
+              name="search"
+              type="search"
+              placeholder="Search by make, model, or nickname"
+              value="<%= query.search || '' %>"
+            />
+          </div>
+          <div class="filters-row">
+            <label for="location">Location</label>
+            <input
+              id="location"
+              name="location"
+              type="search"
+              placeholder="eg. Kuala Lumpur, Penang"
+              value="<%= query.location || '' %>"
+            />
+          </div>
+          <div class="filters-actions">
+            <button type="submit" class="button button--primary">Filter</button>
+            <a class="button button--ghost" href="/fleet">Reset</a>
+          </div>
+        </form>
+      </section>
+
+      <section class="container results-meta">
+        <p>
+          Showing <strong><%= cars.length %></strong> of
+          <strong><%= totalCount %></strong> classic cars.
+        </p>
+        <p class="hint">
+          Can't find a specific model? <a href="/contact">Contact us</a> for private listings and
+          nationwide sourcing.
+        </p>
+      </section>
+
+      <section class="container card-grid card-grid--fleet">
+        <% if (cars.length === 0) { %>
+          <p class="empty-state">No cars match your filters yet. Try adjusting your search.</p>
+        <% } %>
+        <% cars.forEach(function(car) { %>
+          <article class="card car-card">
+            <div class="card-media">
+              <% const heroImage = car.images && car.images.length ? car.images[0] : null; %>
+              <% if (heroImage) { %>
+                <img src="<%= heroImage.url %>" alt="<%= heroImage.altText || car.name %>" />
+              <% } else { %>
+                <div class="card-placeholder">Image coming soon</div>
+              <% } %>
+            </div>
+            <div class="card-body">
+              <h2><a href="/cars/<%= car.slug %>"><%= car.name %></a></h2>
+              <p><%= car.shortDescription || 'Full specs available on request.' %></p>
+              <dl class="car-specs">
+                <% if (car.make) { %>
+                  <div>
+                    <dt>Make</dt>
+                    <dd><%= car.make %></dd>
+                  </div>
+                <% } %>
+                <% if (car.model) { %>
+                  <div>
+                    <dt>Model</dt>
+                    <dd><%= car.model %></dd>
+                  </div>
+                <% } %>
+                <% if (car.year) { %>
+                  <div>
+                    <dt>Year</dt>
+                    <dd><%= car.year %></dd>
+                  </div>
+                <% } %>
+                <% if (car.displacementCc) { %>
+                  <div>
+                    <dt>Engine</dt>
+                    <dd><%= car.displacementCc %> cc</dd>
+                  </div>
+                <% } %>
+                <% if (car.location) { %>
+                  <div>
+                    <dt>Based in</dt>
+                    <dd><%= car.location %></dd>
+                  </div>
+                <% } %>
+              </dl>
+            </div>
+            <footer class="card-footer">
+              <a class="button button--ghost" href="/cars/<%= car.slug %>">View details</a>
+              <a class="button button--primary" href="/booking?carId=<%= car.id %>">Request quote</a>
+            </footer>
+          </article>
+        <% }) %>
+      </section>
+
+      <section class="section section--alt">
+        <div class="container section-heading">
+          <h2>Popular event bundles</h2>
+          <p>Pair your chosen car with the perfect schedule.</p>
+        </div>
+        <div class="container card-grid card-grid--rates">
+          <% ratePackages.forEach(function(rate) { %>
+            <article class="card rate-card">
+              <header>
+                <h3><%= rate.label %></h3>
+                <span class="rate-tag"><%= rate.durationHours %> hours</span>
+              </header>
+              <p class="price"><%= formatCurrency(rate.price) %></p>
+              <ul class="card-list">
+                <li>Dedicated chauffeur</li>
+                <li>Flexible routing</li>
+                <li>24-hour concierge line</li>
+              </ul>
+              <footer>
+                <a class="button button--secondary" href="/booking?ratePackageId=<%= rate.id %>"
+                  >Book now</a
+                >
+              </footer>
+            </article>
+          <% }) %>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

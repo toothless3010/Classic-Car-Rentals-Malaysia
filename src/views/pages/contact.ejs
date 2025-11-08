@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-contact">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="page-hero container">
+        <div>
+          <h1>Let's plan your classic arrival</h1>
+          <p>
+            Reach our concierge team through social messaging or email. Share your event details and
+            we will respond within 24 hours.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a class="button button--primary" href="/booking">Start a booking</a>
+          <a class="button button--ghost" href="mailto:<%= brand.contactEmail %>">Email us</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container contact-grid">
+          <div>
+            <h2>Concierge channels</h2>
+            <ul class="contact-list">
+              <li>
+                <h3>Email</h3>
+                <p><a href="mailto:<%= brand.contactEmail %>"><%= brand.contactEmail %></a></p>
+              </li>
+              <li>
+                <h3>Phone / WhatsApp</h3>
+                <p><a href="tel:+60123456789"><%= brand.contactPhone %></a></p>
+              </li>
+              <li>
+                <h3>Social media</h3>
+                <ul>
+                  <% (socialLinks.length ? socialLinks : [
+                    { platform: 'Facebook', url: brand.socials.facebook, handle: '@ccrmalaysia' },
+                    { platform: 'Instagram', url: brand.socials.instagram, handle: '@classiccarrentalsmalaysia' },
+                    { platform: 'TikTok', url: brand.socials.tiktok, handle: '@classiccarrentalsmy' },
+                  ]).forEach(function(link) { %>
+                    <li>
+                      <a href="<%= link.url %>" target="_blank" rel="noopener">
+                        <strong><%= link.platform %></strong> <span><%= link.handle || '' %></span>
+                      </a>
+                    </li>
+                  <% }) %>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h2>Quick inquiry</h2>
+            <form class="contact-form" method="post" action="https://formspree.io/f/your-id">
+              <div class="form-row">
+                <label for="contact-name">Name</label>
+                <input type="text" id="contact-name" name="name" required />
+              </div>
+              <div class="form-row">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" name="email" required />
+              </div>
+              <div class="form-row">
+                <label for="contact-message">How can we assist?</label>
+                <textarea id="contact-message" name="message" rows="4" required></textarea>
+              </div>
+              <button type="submit" class="button button--primary">Send message</button>
+              <p class="hint">
+                Prefer WhatsApp? Send us a voice note and we will follow up with available slots.
+              </p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

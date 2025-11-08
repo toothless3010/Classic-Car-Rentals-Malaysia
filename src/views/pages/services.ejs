@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-services">
+    <%- include('../partials/header') %>
+    <main>
+      <section class="page-hero container">
+        <div>
+          <h1>End-to-end classic car solutions</h1>
+          <p>
+            From sourcing rare collectibles to coordinating restoration, our team manages the full
+            journey so you can focus on creating unforgettable moments.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a class="button button--primary" href="/booking">Start a booking</a>
+          <a class="button button--ghost" href="/contact">Talk to us</a>
+        </div>
+      </section>
+
+      <section class="container cards-masonry">
+        <% services.forEach(function(service) { %>
+          <article class="card service-card">
+            <header>
+              <h2><%= service.title %></h2>
+            </header>
+            <p><%= service.summary %></p>
+            <a class="button button--ghost" href="/services/<%= service.slug %>">Learn more</a>
+          </article>
+        <% }) %>
+      </section>
+
+      <section class="section section--alt">
+        <div class="container split">
+          <div>
+            <h2>What makes us different</h2>
+            <ul class="feature-list">
+              <li>Licensed, insured chauffeurs handpicked for premium events</li>
+              <li>Concierge playbooks for akad nikah, tea ceremonies, and cultural rituals</li>
+              <li>Real-time coordination with venue teams and wedding planners</li>
+              <li>Proven track record with films, commercials, and music videos</li>
+            </ul>
+          </div>
+          <aside class="sidebar-card">
+            <h3>Need a custom solution?</h3>
+            <p>
+              Combine multiple services in a bespoke package. Share your brief and we will craft a
+              roadmap, complete with budget guidance and timelines.
+            </p>
+            <a class="button button--primary button--block" href="/contact">Book a consultation</a>
+          </aside>
+        </div>
+      </section>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>

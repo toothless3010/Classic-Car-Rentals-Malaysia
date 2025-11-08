@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('../partials/head', { title }) %>
+  <body class="page-booking-confirmation">
+    <%- include('../partials/header') %>
+    <main>
+      <% if (!booking) { %>
+        <section class="container">
+          <p>We could not find your booking reference. Please contact us for assistance.</p>
+        </section>
+      <% } else { %>
+        <section class="section">
+          <div class="container confirmation-card">
+            <header>
+              <h1>Thank you, <%= booking.customerName %>!</h1>
+              <p>Your booking request has been received.</p>
+              <p class="hint">
+                Reference ID: <strong>#<%= booking.id %></strong> • Submitted on
+                <%= new Date(booking.createdAt).toLocaleDateString('en-MY', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+              </p>
+            </header>
+
+            <div class="confirmation-grid">
+              <section>
+                <h2>Event summary</h2>
+                <ul class="summary-list">
+                  <% if (booking.eventDate) { %>
+                    <li>
+                      <span>Date</span>
+                      <strong>
+                        <%= new Date(booking.eventDate).toLocaleDateString('en-MY', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) %>
+                      </strong>
+                    </li>
+                  <% } %>
+                  <% if (booking.eventType) { %>
+                    <li><span>Event</span> <strong><%= booking.eventType %></strong></li>
+                  <% } %>
+                  <% if (booking.location) { %>
+                    <li><span>Location</span> <strong><%= booking.location %></strong></li>
+                  <% } %>
+                  <li><span>Hours reserved</span> <strong><%= booking.hoursRequested %> hrs</strong></li>
+                  <% if (booking.car) { %>
+                    <li>
+                      <span>Requested car</span>
+                      <strong><%= booking.car.name %></strong>
+                    </li>
+                  <% } %>
+                  <% if (booking.ratePackage) { %>
+                    <li>
+                      <span>Package</span>
+                      <strong><%= booking.ratePackage.label %></strong>
+                    </li>
+                  <% } %>
+                  <li>
+                    <span>Total</span>
+                    <strong><%= formatCurrency(booking.totalAmount) %></strong>
+                  </li>
+                  <li>
+                    <span>Deposit (50%)</span>
+                    <strong><%= formatCurrency(booking.depositAmount) %></strong>
+                  </li>
+                  <% if (booking.towingRequired) { %>
+                    <li>
+                      <span>Outstation</span>
+                      <strong>Concierge will confirm towing arrangements</strong>
+                    </li>
+                  <% } %>
+                </ul>
+              </section>
+              <aside>
+                <h2>Next steps</h2>
+                <ol class="steps">
+                  <li>
+                    <h3>Concierge outreach</h3>
+                    <p>Expect a WhatsApp or email confirmation within 24 hours.</p>
+                  </li>
+                  <li>
+                    <h3>Secure your booking</h3>
+                    <p>Pay the 50% deposit to confirm. Balance is due 48 hours before event day.</p>
+                  </li>
+                  <li>
+                    <h3>Event coordination</h3>
+                    <p>We will review logistics, chauffeur briefing, and styling requirements.</p>
+                  </li>
+                </ol>
+                <% if (paymentLink) { %>
+                  <a class="button button--primary button--block" href="<%= paymentLink %>" target="_blank" rel="noopener">
+                    Pay deposit online
+                  </a>
+                <% } else { %>
+                  <p class="hint">
+                    We will send a secure payment link shortly. Prefer bank transfer? Let us know when we call.
+                  </p>
+                <% } %>
+              </aside>
+            </div>
+          </div>
+        </section>
+      <% } %>
+    </main>
+    <%- include('../partials/footer') %>
+    <script src="/scripts/main.js" defer></script>
+  </body>
+</html>
