@@ -10,17 +10,17 @@
   </title>
   <meta
     name="description"
-    content="<%= metaDescription || 'Classic car rentals for weddings, productions, and premium events across Malaysia with full concierge support.' %>"
+    content="<%= typeof metaDescription !== 'undefined' ? metaDescription : 'Classic car rentals for weddings, productions, and premium events across Malaysia with full concierge support.' %>"
   />
   <meta property="og:title" content="<%= title || brand.name %>" />
   <meta
     property="og:description"
-    content="<%= metaDescription || 'Malaysia\'s trusted classic car experience for weddings, video shoots, and VIP moments.' %>"
+    content="<%= typeof metaDescription !== 'undefined' ? metaDescription : 'Malaysia\'s trusted classic car experience for weddings, video shoots, and VIP moments.' %>"
   />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="<%= brand.name %>" />
-  <meta property="og:url" content="<%= metaUrl || '' %>" />
-  <meta property="og:image" content="<%= metaImage || '/images/og-default.jpg' %>" />
+  <meta property="og:url" content="<%= typeof metaUrl !== 'undefined' ? metaUrl : '' %>" />
+  <meta property="og:image" content="<%= typeof metaImage !== 'undefined' ? metaImage : '/images/og-default.jpg' %>" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
