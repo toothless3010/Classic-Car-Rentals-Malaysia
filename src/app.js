@@ -64,6 +64,7 @@ app.locals.brand = {
     facebook: "https://www.facebook.com/ccrmalaysia",
     instagram: "https://instagram.com/classiccarrentalsmalaysia",
     tiktok: "https://tiktok.com/@classiccarrentalsmy",
+    whatsapp: "https://wa.me/60123456789",
   },
   contactEmail: "hello@classiccarrentals.my",
   contactPhone: "+60 12-345 6789",
